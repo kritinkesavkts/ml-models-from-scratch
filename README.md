@@ -27,16 +27,22 @@ ml_from_scratch/
     logistic_regression.py
   neighbors/
     knn.py
+  tree_models/
+    decision_tree.py
+    gradient_boosting.py
+    random_forest.py
   utils/
     metrics.py
 examples/
   classical_models_demo.py
   linear_and_logistic_demo.py
+  tree_models_demo.py
 docs/
   roadmap.md
 tests/
   test_classical_models.py
   test_linear_models.py
+  test_tree_models.py
 ```
 
 ## Implemented Models
@@ -47,9 +53,9 @@ tests/
 | Supervised Learning | Logistic Regression | Implemented |
 | Supervised Learning | KNN | Implemented |
 | Supervised Learning | Naive Bayes | Implemented |
-| Tree Models | Decision Tree | Planned |
-| Tree Models | Random Forest | Planned |
-| Boosting | Gradient Boosting | Planned |
+| Tree Models | Decision Tree | Implemented |
+| Tree Models | Random Forest | Implemented |
+| Boosting | Gradient Boosting | Implemented |
 | Unsupervised Learning | K-Means | Implemented |
 | Dimensionality Reduction | PCA | Implemented |
 | Neural Networks | MLP from Scratch | Planned |
@@ -75,6 +81,7 @@ Run the first example:
 ```bash
 python examples/linear_and_logistic_demo.py
 python examples/classical_models_demo.py
+python examples/tree_models_demo.py
 ```
 
 ## Design Philosophy
