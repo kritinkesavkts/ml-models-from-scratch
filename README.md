@@ -16,16 +16,26 @@ This repository is designed for a Machine Learning Engineer role portfolio: ever
 
 ```text
 ml_from_scratch/
+  bayes/
+    gaussian_naive_bayes.py
+  cluster/
+    kmeans.py
+  decomposition/
+    pca.py
   linear_models/
     linear_regression.py
     logistic_regression.py
+  neighbors/
+    knn.py
   utils/
     metrics.py
 examples/
+  classical_models_demo.py
   linear_and_logistic_demo.py
 docs/
   roadmap.md
 tests/
+  test_classical_models.py
   test_linear_models.py
 ```
 
@@ -35,13 +45,13 @@ tests/
 | --- | --- | --- |
 | Supervised Learning | Linear Regression | Implemented |
 | Supervised Learning | Logistic Regression | Implemented |
-| Supervised Learning | KNN | Planned |
-| Supervised Learning | Naive Bayes | Planned |
+| Supervised Learning | KNN | Implemented |
+| Supervised Learning | Naive Bayes | Implemented |
 | Tree Models | Decision Tree | Planned |
 | Tree Models | Random Forest | Planned |
 | Boosting | Gradient Boosting | Planned |
-| Unsupervised Learning | K-Means | Planned |
-| Dimensionality Reduction | PCA | Planned |
+| Unsupervised Learning | K-Means | Implemented |
+| Dimensionality Reduction | PCA | Implemented |
 | Neural Networks | MLP from Scratch | Planned |
 | Computer Vision | CNN | Planned |
 | Sequence Modeling | RNN, LSTM, GRU | Planned |
@@ -64,6 +74,7 @@ Run the first example:
 
 ```bash
 python examples/linear_and_logistic_demo.py
+python examples/classical_models_demo.py
 ```
 
 ## Design Philosophy
