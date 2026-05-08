@@ -27,6 +27,10 @@ ml_from_scratch/
     logistic_regression.py
   neighbors/
     knn.py
+  neural_networks/
+    activations.py
+    losses.py
+    mlp.py
   tree_models/
     decision_tree.py
     gradient_boosting.py
@@ -36,12 +40,14 @@ ml_from_scratch/
 examples/
   classical_models_demo.py
   linear_and_logistic_demo.py
+  neural_networks_demo.py
   tree_models_demo.py
 docs/
   roadmap.md
 tests/
   test_classical_models.py
   test_linear_models.py
+  test_neural_networks.py
   test_tree_models.py
 ```
 
@@ -58,7 +64,7 @@ tests/
 | Boosting | Gradient Boosting | Implemented |
 | Unsupervised Learning | K-Means | Implemented |
 | Dimensionality Reduction | PCA | Implemented |
-| Neural Networks | MLP from Scratch | Planned |
+| Neural Networks | MLP from Scratch | Implemented |
 | Computer Vision | CNN | Planned |
 | Sequence Modeling | RNN, LSTM, GRU | Planned |
 | Attention | Scaled Dot-Product Attention | Planned |
@@ -82,6 +88,7 @@ Run the first example:
 python examples/linear_and_logistic_demo.py
 python examples/classical_models_demo.py
 python examples/tree_models_demo.py
+python examples/neural_networks_demo.py
 ```
 
 ## Design Philosophy
