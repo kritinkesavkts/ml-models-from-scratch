@@ -36,6 +36,10 @@ ml_from_scratch/
   sequence_models/
     cells.py
     rnn_classifier.py
+  transformers/
+    attention.py
+    encoder.py
+    positional_encoding.py
   tree_models/
     decision_tree.py
     gradient_boosting.py
@@ -48,6 +52,7 @@ examples/
   cnn_demo.py
   neural_networks_demo.py
   sequence_models_demo.py
+  transformers_demo.py
   tree_models_demo.py
 docs/
   roadmap.md
@@ -57,6 +62,7 @@ tests/
   test_cnn.py
   test_neural_networks.py
   test_sequence_models.py
+  test_transformers.py
   test_tree_models.py
 ```
 
@@ -76,8 +82,8 @@ tests/
 | Neural Networks | MLP from Scratch | Implemented |
 | Computer Vision | CNN | Implemented |
 | Sequence Modeling | RNN, LSTM, GRU | Implemented |
-| Attention | Scaled Dot-Product Attention | Planned |
-| Transformers | Encoder, Decoder, GPT-style model | Planned |
+| Attention | Scaled Dot-Product Attention | Implemented |
+| Transformers | Encoder, Decoder, GPT-style model | Encoder Implemented |
 | Vision | Vision Transformer | Planned |
 | Multimodal | CLIP-style Image-Text Model | Planned |
 
@@ -100,6 +106,7 @@ python examples/tree_models_demo.py
 python examples/neural_networks_demo.py
 python examples/cnn_demo.py
 python examples/sequence_models_demo.py
+python examples/transformers_demo.py
 ```
 
 ## Design Philosophy
