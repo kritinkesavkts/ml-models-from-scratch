@@ -29,6 +29,8 @@ ml_from_scratch/
     knn.py
   neural_networks/
     activations.py
+    cnn.py
+    layers.py
     losses.py
     mlp.py
   tree_models/
@@ -40,6 +42,7 @@ ml_from_scratch/
 examples/
   classical_models_demo.py
   linear_and_logistic_demo.py
+  cnn_demo.py
   neural_networks_demo.py
   tree_models_demo.py
 docs/
@@ -47,6 +50,7 @@ docs/
 tests/
   test_classical_models.py
   test_linear_models.py
+  test_cnn.py
   test_neural_networks.py
   test_tree_models.py
 ```
@@ -65,7 +69,7 @@ tests/
 | Unsupervised Learning | K-Means | Implemented |
 | Dimensionality Reduction | PCA | Implemented |
 | Neural Networks | MLP from Scratch | Implemented |
-| Computer Vision | CNN | Planned |
+| Computer Vision | CNN | Implemented |
 | Sequence Modeling | RNN, LSTM, GRU | Planned |
 | Attention | Scaled Dot-Product Attention | Planned |
 | Transformers | Encoder, Decoder, GPT-style model | Planned |
@@ -89,6 +93,7 @@ python examples/linear_and_logistic_demo.py
 python examples/classical_models_demo.py
 python examples/tree_models_demo.py
 python examples/neural_networks_demo.py
+python examples/cnn_demo.py
 ```
 
 ## Design Philosophy
