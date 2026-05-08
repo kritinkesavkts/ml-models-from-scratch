@@ -41,6 +41,7 @@ ml_from_scratch/
     decoder.py
     encoder.py
     positional_encoding.py
+    vision_transformer.py
   tree_models/
     decision_tree.py
     gradient_boosting.py
@@ -85,7 +86,7 @@ tests/
 | Sequence Modeling | RNN, LSTM, GRU | Implemented |
 | Attention | Scaled Dot-Product Attention | Implemented |
 | Transformers | Encoder, Decoder, GPT-style model | Implemented |
-| Vision | Vision Transformer | Planned |
+| Vision | Vision Transformer | Implemented |
 | Multimodal | CLIP-style Image-Text Model | Planned |
 
 ## Quick Start

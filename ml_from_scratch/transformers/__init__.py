@@ -9,6 +9,7 @@ from ml_from_scratch.transformers.decoder import (
 )
 from ml_from_scratch.transformers.encoder import TransformerEncoderBlock
 from ml_from_scratch.transformers.positional_encoding import sinusoidal_positional_encoding
+from ml_from_scratch.transformers.vision_transformer import VisionTransformerClassifier
 
 __all__ = [
     "GPTStyleDecoder",
@@ -16,6 +17,7 @@ __all__ = [
     "ScaledDotProductAttention",
     "TransformerDecoderBlock",
     "TransformerEncoderBlock",
+    "VisionTransformerClassifier",
     "causal_mask",
     "sinusoidal_positional_encoding",
 ]

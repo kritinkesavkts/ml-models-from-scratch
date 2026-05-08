@@ -8,6 +8,7 @@ from ml_from_scratch.transformers import (
     ScaledDotProductAttention,
     TransformerDecoderBlock,
     TransformerEncoderBlock,
+    VisionTransformerClassifier,
     causal_mask,
     sinusoidal_positional_encoding,
 )
@@ -70,7 +71,32 @@ def run_decoder_demo() -> None:
     print(f"  generated token ids: {generated.tolist()}")
 
 
+def run_vision_transformer_demo() -> None:
+    rng = np.random.default_rng(98)
+    images = rng.normal(size=(3, 8, 8))
+    model = VisionTransformerClassifier(
+        image_size=8,
+        patch_size=2,
+        n_classes=3,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=2,
+        random_state=99,
+    )
+    patches = model.extract_patches(images)
+    tokens = model.embed_patches(images)
+    logits = model.forward(images)
+
+    print("Vision Transformer")
+    print(f"  patches shape: {patches.shape}")
+    print(f"  token sequence shape: {tokens.shape}")
+    print(f"  logits shape: {logits.shape}")
+    print(f"  predicted classes: {model.predict(images).tolist()}")
+
+
 if __name__ == "__main__":
     run_attention_demo()
     run_encoder_demo()
     run_decoder_demo()
+    run_vision_transformer_demo()

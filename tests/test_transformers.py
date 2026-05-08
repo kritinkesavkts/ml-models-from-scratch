@@ -9,6 +9,7 @@ from ml_from_scratch.transformers import (
     ScaledDotProductAttention,
     TransformerDecoderBlock,
     TransformerEncoderBlock,
+    VisionTransformerClassifier,
     causal_mask,
     sinusoidal_positional_encoding,
 )
@@ -151,3 +152,60 @@ def test_gpt_style_decoder_rejects_bad_token_ids() -> None:
 
     with pytest.raises(ValueError):
         model.forward(np.array([[1, 5]]))
+
+
+def test_vision_transformer_extracts_non_overlapping_patches() -> None:
+    image = np.arange(16).reshape(1, 4, 4)
+    model = VisionTransformerClassifier(
+        image_size=4,
+        patch_size=2,
+        n_classes=2,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=1,
+        random_state=510,
+    )
+
+    patches = model.extract_patches(image)
+
+    assert patches.shape == (1, 4, 4)
+    assert patches[0, 0].tolist() == [0, 1, 4, 5]
+    assert patches[0, 3].tolist() == [10, 11, 14, 15]
+
+
+def test_vision_transformer_embedding_and_logits_shapes() -> None:
+    rng = np.random.default_rng(511)
+    images = rng.normal(size=(2, 8, 8))
+    model = VisionTransformerClassifier(
+        image_size=8,
+        patch_size=2,
+        n_classes=3,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=2,
+        random_state=512,
+    )
+
+    tokens = model.embed_patches(images)
+    logits = model.forward(images)
+    predictions = model.predict(images)
+
+    assert model.n_patches_ == 16
+    assert tokens.shape == (2, 17, 8)
+    assert logits.shape == (2, 3)
+    assert predictions.shape == (2,)
+    assert np.all((predictions >= 0) & (predictions < 3))
+
+
+def test_vision_transformer_rejects_bad_image_shape() -> None:
+    model = VisionTransformerClassifier(image_size=8, patch_size=2, n_classes=2)
+
+    with pytest.raises(ValueError):
+        model.forward(np.zeros((2, 7, 8)))
+
+
+def test_vision_transformer_requires_divisible_patch_size() -> None:
+    with pytest.raises(ValueError):
+        VisionTransformerClassifier(image_size=7, patch_size=2, n_classes=2)
