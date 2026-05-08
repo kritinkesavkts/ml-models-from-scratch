@@ -25,6 +25,8 @@ ml_from_scratch/
   linear_models/
     linear_regression.py
     logistic_regression.py
+  multimodal/
+    clip.py
   neighbors/
     knn.py
   neural_networks/
@@ -51,6 +53,7 @@ ml_from_scratch/
 examples/
   classical_models_demo.py
   linear_and_logistic_demo.py
+  multimodal_demo.py
   cnn_demo.py
   neural_networks_demo.py
   sequence_models_demo.py
@@ -61,6 +64,7 @@ docs/
 tests/
   test_classical_models.py
   test_linear_models.py
+  test_multimodal.py
   test_cnn.py
   test_neural_networks.py
   test_sequence_models.py
@@ -87,7 +91,7 @@ tests/
 | Attention | Scaled Dot-Product Attention | Implemented |
 | Transformers | Encoder, Decoder, GPT-style model | Implemented |
 | Vision | Vision Transformer | Implemented |
-| Multimodal | CLIP-style Image-Text Model | Planned |
+| Multimodal | CLIP-style Image-Text Model | Implemented |
 
 ## Quick Start
 
@@ -109,6 +113,7 @@ python examples/neural_networks_demo.py
 python examples/cnn_demo.py
 python examples/sequence_models_demo.py
 python examples/transformers_demo.py
+python examples/multimodal_demo.py
 ```
 
 ## Design Philosophy
