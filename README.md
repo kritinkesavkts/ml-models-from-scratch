@@ -38,6 +38,7 @@ ml_from_scratch/
     rnn_classifier.py
   transformers/
     attention.py
+    decoder.py
     encoder.py
     positional_encoding.py
   tree_models/
@@ -83,7 +84,7 @@ tests/
 | Computer Vision | CNN | Implemented |
 | Sequence Modeling | RNN, LSTM, GRU | Implemented |
 | Attention | Scaled Dot-Product Attention | Implemented |
-| Transformers | Encoder, Decoder, GPT-style model | Encoder Implemented |
+| Transformers | Encoder, Decoder, GPT-style model | Implemented |
 | Vision | Vision Transformer | Planned |
 | Multimodal | CLIP-style Image-Text Model | Planned |
 

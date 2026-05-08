@@ -4,9 +4,12 @@ import numpy as np
 import pytest
 
 from ml_from_scratch.transformers import (
+    GPTStyleDecoder,
     MultiHeadAttention,
     ScaledDotProductAttention,
+    TransformerDecoderBlock,
     TransformerEncoderBlock,
+    causal_mask,
     sinusoidal_positional_encoding,
 )
 
@@ -77,3 +80,74 @@ def test_transformer_encoder_rejects_bad_input_shape() -> None:
 
     with pytest.raises(ValueError):
         encoder.forward(np.zeros((2, 4, 7)))
+
+
+def test_causal_mask_blocks_future_positions() -> None:
+    mask = causal_mask(4)
+
+    assert mask.dtype == bool
+    assert mask.tolist() == [
+        [True, False, False, False],
+        [True, True, False, False],
+        [True, True, True, False],
+        [True, True, True, True],
+    ]
+
+
+def test_transformer_decoder_block_preserves_shape_and_uses_causal_attention() -> None:
+    rng = np.random.default_rng(506)
+    X = rng.normal(size=(2, 5, 8))
+    decoder = TransformerDecoderBlock(d_model=8, n_heads=2, d_ff=16, random_state=507)
+
+    output = decoder.forward(X)
+    weights = decoder.attention_.last_attention_weights_
+
+    assert output.shape == X.shape
+    assert weights.shape == (2, 2, 5, 5)
+    assert np.allclose(weights[:, :, 0, 1:], 0.0)
+    assert np.allclose(output.mean(axis=-1), 0.0, atol=1e-6)
+
+
+def test_gpt_style_decoder_returns_next_token_logits() -> None:
+    model = GPTStyleDecoder(
+        vocab_size=10,
+        max_sequence_length=6,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=2,
+        random_state=508,
+    )
+    token_ids = np.array([[1, 2, 3], [3, 2, 1]])
+
+    logits = model.forward(token_ids)
+    next_tokens = model.predict_next(token_ids)
+
+    assert logits.shape == (2, 3, 10)
+    assert next_tokens.shape == (2,)
+    assert np.all((next_tokens >= 0) & (next_tokens < 10))
+
+
+def test_gpt_style_decoder_generate_extends_prompt_until_limit() -> None:
+    model = GPTStyleDecoder(
+        vocab_size=7,
+        max_sequence_length=5,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=1,
+        random_state=509,
+    )
+    prompt = np.array([[1, 2, 3]])
+
+    generated = model.generate(prompt, max_new_tokens=5)
+
+    assert generated.shape == (1, 5)
+    assert generated[:, :3].tolist() == [[1, 2, 3]]
+
+
+def test_gpt_style_decoder_rejects_bad_token_ids() -> None:
+    model = GPTStyleDecoder(vocab_size=5, max_sequence_length=4, d_model=8, n_heads=2)
+
+    with pytest.raises(ValueError):
+        model.forward(np.array([[1, 5]]))
