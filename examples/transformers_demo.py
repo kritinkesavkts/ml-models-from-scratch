@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 from ml_from_scratch.transformers import (
+    BERTStyleEncoder,
     GPTStyleDecoder,
     MultiHeadAttention,
     ScaledDotProductAttention,
@@ -71,6 +72,35 @@ def run_decoder_demo() -> None:
     print(f"  generated token ids: {generated.tolist()}")
 
 
+def run_bert_demo() -> None:
+    bert = BERTStyleEncoder(
+        vocab_size=20,
+        max_sequence_length=8,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=2,
+        random_state=98,
+    )
+    token_ids = np.array([[1, 2, 19, 4, 5], [6, 7, 8, 19, 10]])
+    segment_ids = np.array([[0, 0, 0, 1, 1], [0, 0, 1, 1, 1]])
+    mask_positions = np.array([2, 3])
+    target_token_ids = np.array([3, 9])
+
+    hidden = bert.forward(token_ids, segment_ids)
+    logits = bert.mlm_logits(token_ids, segment_ids)
+    predictions = bert.predict_masked(token_ids, mask_positions, segment_ids)
+    loss = bert.masked_language_modeling_loss(
+        token_ids, mask_positions, target_token_ids, segment_ids
+    )
+
+    print("BERT-Style Encoder")
+    print(f"  hidden shape: {hidden.shape}")
+    print(f"  MLM logits shape: {logits.shape}")
+    print(f"  masked predictions: {predictions.tolist()}")
+    print(f"  MLM loss: {loss:.3f}")
+
+
 def run_vision_transformer_demo() -> None:
     rng = np.random.default_rng(98)
     images = rng.normal(size=(3, 8, 8))
@@ -99,4 +129,5 @@ if __name__ == "__main__":
     run_attention_demo()
     run_encoder_demo()
     run_decoder_demo()
+    run_bert_demo()
     run_vision_transformer_demo()

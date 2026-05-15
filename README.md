@@ -40,6 +40,7 @@ ml_from_scratch/
     rnn_classifier.py
   transformers/
     attention.py
+    bert.py
     decoder.py
     encoder.py
     positional_encoding.py
@@ -90,6 +91,7 @@ tests/
 | Sequence Modeling | RNN, LSTM, GRU | Implemented |
 | Attention | Scaled Dot-Product Attention | Implemented |
 | Transformers | Encoder, Decoder, GPT-style model | Implemented |
+| Transformers | BERT-style Masked Language Model | Implemented |
 | Vision | Vision Transformer | Implemented |
 | Multimodal | CLIP-style Image-Text Model | Implemented |
 

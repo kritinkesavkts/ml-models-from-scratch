@@ -2,6 +2,7 @@ from ml_from_scratch.transformers.attention import (
     MultiHeadAttention,
     ScaledDotProductAttention,
 )
+from ml_from_scratch.transformers.bert import BERTStyleEncoder
 from ml_from_scratch.transformers.decoder import (
     GPTStyleDecoder,
     TransformerDecoderBlock,
@@ -12,6 +13,7 @@ from ml_from_scratch.transformers.positional_encoding import sinusoidal_position
 from ml_from_scratch.transformers.vision_transformer import VisionTransformerClassifier
 
 __all__ = [
+    "BERTStyleEncoder",
     "GPTStyleDecoder",
     "MultiHeadAttention",
     "ScaledDotProductAttention",

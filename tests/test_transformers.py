@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 
 from ml_from_scratch.transformers import (
+    BERTStyleEncoder,
     GPTStyleDecoder,
     MultiHeadAttention,
     ScaledDotProductAttention,
@@ -152,6 +153,83 @@ def test_gpt_style_decoder_rejects_bad_token_ids() -> None:
 
     with pytest.raises(ValueError):
         model.forward(np.array([[1, 5]]))
+
+
+def test_bert_style_encoder_returns_hidden_states_and_mlm_logits() -> None:
+    model = BERTStyleEncoder(
+        vocab_size=12,
+        max_sequence_length=6,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=2,
+        random_state=513,
+    )
+    token_ids = np.array([[1, 2, 3, 4], [4, 3, 2, 1]])
+    segment_ids = np.array([[0, 0, 1, 1], [0, 1, 1, 1]])
+
+    hidden = model.forward(token_ids, segment_ids)
+    logits = model.mlm_logits(token_ids, segment_ids)
+
+    assert hidden.shape == (2, 4, 8)
+    assert logits.shape == (2, 4, 12)
+    assert np.allclose(hidden.mean(axis=-1), 0.0, atol=1e-6)
+
+
+def test_bert_style_encoder_predicts_masked_positions() -> None:
+    model = BERTStyleEncoder(
+        vocab_size=12,
+        max_sequence_length=6,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=1,
+        random_state=514,
+    )
+    token_ids = np.array([[1, 11, 3], [4, 5, 11]])
+    mask_positions = np.array([1, 2])
+
+    predictions = model.predict_masked(token_ids, mask_positions)
+    loss = model.masked_language_modeling_loss(
+        token_ids, mask_positions, np.array([2, 6])
+    )
+
+    assert predictions.shape == (2,)
+    assert np.all((predictions >= 0) & (predictions < 12))
+    assert loss > 0.0
+
+
+def test_bert_style_encoder_uses_segment_embeddings() -> None:
+    model = BERTStyleEncoder(
+        vocab_size=12,
+        max_sequence_length=6,
+        d_model=8,
+        n_heads=2,
+        d_ff=16,
+        n_layers=1,
+        random_state=515,
+    )
+    token_ids = np.array([[1, 2, 3]])
+    segment_a = np.array([[0, 0, 0]])
+    segment_b = np.array([[1, 1, 1]])
+
+    embedded_a = model.embed(token_ids, segment_a)
+    embedded_b = model.embed(token_ids, segment_b)
+
+    assert not np.allclose(embedded_a, embedded_b)
+
+
+def test_bert_style_encoder_rejects_invalid_inputs() -> None:
+    model = BERTStyleEncoder(vocab_size=5, max_sequence_length=4, d_model=8, n_heads=2)
+
+    with pytest.raises(ValueError):
+        model.forward(np.array([[1, 5]]))
+    with pytest.raises(ValueError):
+        model.forward(np.array([[1, 2, 3, 4, 1]]))
+    with pytest.raises(ValueError):
+        model.forward(np.array([[1, 2]]), segment_ids=np.array([[0, 2]]))
+    with pytest.raises(ValueError):
+        model.predict_masked(np.array([[1, 2]]), np.array([2]))
 
 
 def test_vision_transformer_extracts_non_overlapping_patches() -> None:
