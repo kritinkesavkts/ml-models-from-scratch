@@ -65,6 +65,25 @@ def test_clip_style_model_logits_scale_similarity() -> None:
     assert np.allclose(model.logits(images, token_ids), model.similarity(images, token_ids) / 0.5)
 
 
+def test_clip_style_model_training_reduces_contrastive_loss() -> None:
+    images, token_ids = _make_toy_pairs()
+    model = CLIPStyleModel(
+        image_shape=(4, 4),
+        vocab_size=8,
+        embed_dim=6,
+        temperature=0.1,
+        random_state=603,
+    )
+    initial_loss = model.contrastive_loss(images, token_ids)
+
+    model.fit(images, token_ids, learning_rate=0.08, n_iterations=600)
+
+    assert model.losses_[0] > model.losses_[-1]
+    assert model.contrastive_loss(images, token_ids) < initial_loss
+    assert model.retrieve_text(images, token_ids).tolist() == [0, 1, 2]
+    assert model.retrieve_image(images, token_ids).tolist() == [0, 1, 2]
+
+
 def test_clip_style_model_supports_attention_mask() -> None:
     images, token_ids = _make_toy_pairs()
     token_ids = np.column_stack([token_ids, np.zeros(3, dtype=int)])
